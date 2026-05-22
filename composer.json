@@ -1,5 +1,5 @@
 {
-    "name": "tukmachev/laravel-shop",
+    "name": "lab_3/laravel-shop",
     "description": "Abstract online shop Laravel package with CRUD, currency rates and delivery calculation",
     "type": "library",
     "license": "MIT",
