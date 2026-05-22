@@ -1,0 +1,49 @@
+{
+    "name": "tukmachev/laravel-shop",
+    "description": "Abstract online shop Laravel package with CRUD, currency rates and delivery calculation",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Serhii Tukmachev",
+            "email": "serg.tukmachev2006@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^10.0|^11.0",
+        "illuminate/database": "^10.0|^11.0",
+        "illuminate/routing": "^10.0|^11.0",
+        "illuminate/http": "^10.0|^11.0",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0",
+        "pestphp/pest": "^2.0",
+        "pestphp/pest-plugin-laravel": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tukmachev\\Shop\\": "src/",
+            "Tukmachev\\Shop\\Database\\Factories\\": "src/Database/Factories/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tukmachev\\Shop\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tukmachev\\Shop\\ShopServiceProvider"
+            ],
+            "aliases": {
+                "CurrencyRate": "Tukmachev\\Shop\\Facades\\CurrencyRate",
+                "DeliveryCalculator": "Tukmachev\\Shop\\Facades\\DeliveryCalculator"
+            }
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
