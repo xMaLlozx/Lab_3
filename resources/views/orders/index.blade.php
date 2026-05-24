@@ -19,9 +19,9 @@
             <td>{{ number_format($o->total_price, 2) }}</td>
             <td>{{ number_format($o->delivery_cost, 2) }}</td>
             <td>
-                <a href="{{ route('shop.orders.show', $o) }}" class="btn btn-sm btn-info">Просмотр</a>
-                <a href="{{ route('shop.orders.edit', $o) }}" class="btn btn-sm btn-warning">Изменить</a>
-                <form action="{{ route('shop.orders.destroy', $o) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
+                <a href="{{ route('shop.orders.show', $o->id) }}" class="btn btn-sm btn-info">Просмотр</a>
+                <a href="{{ route('shop.orders.edit', $o->id) }}" class="btn btn-sm btn-warning">Изменить</a>
+                <form action="{{ route('shop.orders.destroy', $o->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
                     @csrf @method('DELETE')
                     <button class="btn btn-sm btn-danger">Удалить</button>
                 </form>
@@ -32,5 +32,5 @@
     @endforelse
     </tbody>
 </table>
-{{ $orders->links() }}
+{{ $orders->links("pagination::bootstrap-5") }}
 @endsection

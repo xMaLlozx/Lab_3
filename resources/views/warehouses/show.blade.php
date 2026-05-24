@@ -19,6 +19,10 @@
 @endforeach
 </ul>
 @endif
-<a href="{{ route('shop.warehouses.edit', $warehouse) }}" class="btn btn-warning">Изменить</a>
+<a href="{{ route('shop.warehouses.edit', $warehouse->id) }}" class="btn btn-warning">Изменить</a>
+<form action="{{ route('shop.warehouses.destroy', $warehouse->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
+    @csrf @method('DELETE')
+    <button class="btn btn-danger">Удалить</button>
+</form>
 <a href="{{ route('shop.warehouses.index') }}" class="btn btn-secondary">Назад</a>
 @endsection

@@ -19,9 +19,9 @@
             <td>{{ $p->category?->name ?? '—' }}</td>
             <td>{{ $p->is_active ? 'Да' : 'Нет' }}</td>
             <td>
-                <a href="{{ route('shop.products.show', $p) }}" class="btn btn-sm btn-info">Просмотр</a>
-                <a href="{{ route('shop.products.edit', $p) }}" class="btn btn-sm btn-warning">Изменить</a>
-                <form action="{{ route('shop.products.destroy', $p) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
+                <a href="{{ route('shop.products.show', $p->id) }}" class="btn btn-sm btn-info">Просмотр</a>
+                <a href="{{ route('shop.products.edit', $p->id) }}" class="btn btn-sm btn-warning">Изменить</a>
+                <form action="{{ route('shop.products.destroy', $p->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
                     @csrf @method('DELETE')
                     <button class="btn btn-sm btn-danger">Удалить</button>
                 </form>
@@ -32,5 +32,5 @@
     @endforelse
     </tbody>
 </table>
-{{ $products->links() }}
+{{ $products->links("pagination::bootstrap-5") }}
 @endsection

@@ -10,7 +10,7 @@ use Tukmachev\Shop\Http\Controllers\WarehouseController;
 
 $prefix = config('shop.route_prefix', 'shop');
 
-Route::prefix($prefix)->name('shop.')->group(function () {
+Route::middleware('web')->prefix($prefix)->name('shop.')->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('suppliers',  SupplierController::class);
     Route::resource('products',   ProductController::class);

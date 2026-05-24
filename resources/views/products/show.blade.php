@@ -12,6 +12,10 @@
     <dt class="col-sm-3">Активен</dt><dd class="col-sm-9">{{ $product->is_active ? 'Да' : 'Нет' }}</dd>
     <dt class="col-sm-3">Описание</dt><dd class="col-sm-9">{{ $product->description ?? '—' }}</dd>
 </dl>
-<a href="{{ route('shop.products.edit', $product) }}" class="btn btn-warning">Изменить</a>
+<a href="{{ route('shop.products.edit', $product->id) }}" class="btn btn-warning">Изменить</a>
+<form action="{{ route('shop.products.destroy', $product->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
+    @csrf @method('DELETE')
+    <button class="btn btn-danger">Удалить</button>
+</form>
 <a href="{{ route('shop.products.index') }}" class="btn btn-secondary">Назад</a>
 @endsection

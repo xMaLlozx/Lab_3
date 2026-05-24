@@ -10,6 +10,10 @@
     <dt class="col-sm-3">Контакт</dt><dd class="col-sm-9">{{ $supplier->contact_person ?? '—' }}</dd>
     <dt class="col-sm-3">Товаров</dt><dd class="col-sm-9">{{ $supplier->products->count() }}</dd>
 </dl>
-<a href="{{ route('shop.suppliers.edit', $supplier) }}" class="btn btn-warning">Изменить</a>
+<a href="{{ route('shop.suppliers.edit', $supplier->id) }}" class="btn btn-warning">Изменить</a>
+<form action="{{ route('shop.suppliers.destroy', $supplier->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
+    @csrf @method('DELETE')
+    <button class="btn btn-danger">Удалить</button>
+</form>
 <a href="{{ route('shop.suppliers.index') }}" class="btn btn-secondary">Назад</a>
 @endsection

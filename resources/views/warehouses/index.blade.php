@@ -19,9 +19,9 @@
             <td>{{ $w->capacity }}</td>
             <td>{{ $w->manager ?? '—' }}</td>
             <td>
-                <a href="{{ route('shop.warehouses.show', $w) }}" class="btn btn-sm btn-info">Просмотр</a>
-                <a href="{{ route('shop.warehouses.edit', $w) }}" class="btn btn-sm btn-warning">Изменить</a>
-                <form action="{{ route('shop.warehouses.destroy', $w) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
+                <a href="{{ route('shop.warehouses.show', $w->id) }}" class="btn btn-sm btn-info">Просмотр</a>
+                <a href="{{ route('shop.warehouses.edit', $w->id) }}" class="btn btn-sm btn-warning">Изменить</a>
+                <form action="{{ route('shop.warehouses.destroy', $w->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
                     @csrf @method('DELETE')
                     <button class="btn btn-sm btn-danger">Удалить</button>
                 </form>
@@ -32,5 +32,5 @@
     @endforelse
     </tbody>
 </table>
-{{ $warehouses->links() }}
+{{ $warehouses->links("pagination::bootstrap-5") }}
 @endsection

@@ -18,9 +18,9 @@
             <td>{{ $c->city ?? '—' }}</td>
             <td>{{ $c->country ?? '—' }}</td>
             <td>
-                <a href="{{ route('shop.clients.show', $c) }}" class="btn btn-sm btn-info">Просмотр</a>
-                <a href="{{ route('shop.clients.edit', $c) }}" class="btn btn-sm btn-warning">Изменить</a>
-                <form action="{{ route('shop.clients.destroy', $c) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
+                <a href="{{ route('shop.clients.show', $c->id) }}" class="btn btn-sm btn-info">Просмотр</a>
+                <a href="{{ route('shop.clients.edit', $c->id) }}" class="btn btn-sm btn-warning">Изменить</a>
+                <form action="{{ route('shop.clients.destroy', $c->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
                     @csrf @method('DELETE')
                     <button class="btn btn-sm btn-danger">Удалить</button>
                 </form>
@@ -31,5 +31,5 @@
     @endforelse
     </tbody>
 </table>
-{{ $clients->links() }}
+{{ $clients->links("pagination::bootstrap-5") }}
 @endsection

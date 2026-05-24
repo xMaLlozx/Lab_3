@@ -18,9 +18,9 @@
             <td>{{ $s->country ?? '—' }}</td>
             <td>{{ $s->contact_person ?? '—' }}</td>
             <td>
-                <a href="{{ route('shop.suppliers.show', $s) }}" class="btn btn-sm btn-info">Просмотр</a>
-                <a href="{{ route('shop.suppliers.edit', $s) }}" class="btn btn-sm btn-warning">Изменить</a>
-                <form action="{{ route('shop.suppliers.destroy', $s) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
+                <a href="{{ route('shop.suppliers.show', $s->id) }}" class="btn btn-sm btn-info">Просмотр</a>
+                <a href="{{ route('shop.suppliers.edit', $s->id) }}" class="btn btn-sm btn-warning">Изменить</a>
+                <form action="{{ route('shop.suppliers.destroy', $s->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
                     @csrf @method('DELETE')
                     <button class="btn btn-sm btn-danger">Удалить</button>
                 </form>
@@ -31,5 +31,5 @@
     @endforelse
     </tbody>
 </table>
-{{ $suppliers->links() }}
+{{ $suppliers->links("pagination::bootstrap-5") }}
 @endsection

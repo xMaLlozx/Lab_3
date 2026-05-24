@@ -14,6 +14,10 @@
     <dt class="col-sm-3">Примечания</dt><dd class="col-sm-9">{{ $order->notes ?? '—' }}</dd>
     <dt class="col-sm-3">Создан</dt><dd class="col-sm-9">{{ $order->created_at->format('d.m.Y H:i') }}</dd>
 </dl>
-<a href="{{ route('shop.orders.edit', $order) }}" class="btn btn-warning">Изменить</a>
+<a href="{{ route('shop.orders.edit', $order->id) }}" class="btn btn-warning">Изменить</a>
+<form action="{{ route('shop.orders.destroy', $order->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
+    @csrf @method('DELETE')
+    <button class="btn btn-danger">Удалить</button>
+</form>
 <a href="{{ route('shop.orders.index') }}" class="btn btn-secondary">Назад</a>
 @endsection

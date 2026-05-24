@@ -9,6 +9,10 @@
     <dt class="col-sm-3">Подкатегории</dt><dd class="col-sm-9">{{ $category->children->pluck('name')->join(', ') ?: '—' }}</dd>
     <dt class="col-sm-3">Товаров</dt><dd class="col-sm-9">{{ $category->products->count() }}</dd>
 </dl>
-<a href="{{ route('shop.categories.edit', $category) }}" class="btn btn-warning">Изменить</a>
+<a href="{{ route('shop.categories.edit', $category->id) }}" class="btn btn-warning">Изменить</a>
+<form action="{{ route('shop.categories.destroy', $category->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
+    @csrf @method('DELETE')
+    <button class="btn btn-danger">Удалить</button>
+</form>
 <a href="{{ route('shop.categories.index') }}" class="btn btn-secondary">Назад</a>
 @endsection

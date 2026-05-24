@@ -17,9 +17,9 @@
             <td>{{ $category->parent?->name ?? '—' }}</td>
             <td>{{ Str::limit($category->description, 60) }}</td>
             <td>
-                <a href="{{ route('shop.categories.show', $category) }}" class="btn btn-sm btn-info">Просмотр</a>
-                <a href="{{ route('shop.categories.edit', $category) }}" class="btn btn-sm btn-warning">Изменить</a>
-                <form action="{{ route('shop.categories.destroy', $category) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
+                <a href="{{ route('shop.categories.show', $category->id) }}" class="btn btn-sm btn-info">Просмотр</a>
+                <a href="{{ route('shop.categories.edit', $category->id) }}" class="btn btn-sm btn-warning">Изменить</a>
+                <form action="{{ route('shop.categories.destroy', $category->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить?')">
                     @csrf @method('DELETE')
                     <button class="btn btn-sm btn-danger">Удалить</button>
                 </form>
@@ -30,5 +30,5 @@
     @endforelse
     </tbody>
 </table>
-{{ $categories->links() }}
+{{ $categories->links("pagination::bootstrap-5") }}
 @endsection
