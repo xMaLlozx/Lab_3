@@ -7,9 +7,20 @@ use Illuminate\Routing\Controller;
 use Tukmachev\Shop\Models\Client;
 use Tukmachev\Shop\Models\Order;
 use Tukmachev\Shop\Models\Warehouse;
+use Tukmachev\Shop\Services\DeliveryCalculatorService;
+use Tukmachev\Shop\Services\CurrencyRateService;
 
 class OrderController extends Controller
 {
+    protected DeliveryCalculatorService $delivery;
+    protected CurrencyRateService $currency;
+
+    public function __construct()
+    {
+        $this->delivery = app('delivery-calculator');
+        $this->currency = app('currency-rate');
+    }
+
     public function index()
     {
         $orders = Order::with('client', 'warehouse')->paginate(15);
@@ -40,6 +51,8 @@ class OrderController extends Controller
             'notes'              => 'nullable|string',
         ]);
 
+        $data['delivery_cost'] = $this->calculateDeliveryCost($data);
+
         Order::create($data);
         return redirect()->route('shop.orders.index')->with('success', 'Заказ создан.');
     }
@@ -47,7 +60,15 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $order->load('client', 'warehouse');
-        return view('shop::orders.show', compact('order'));
+
+        $totalInRub = null;
+        try {
+            $totalInRub = $this->currency->convert($order->total_price, 'USD', 'RUB');
+        } catch (\Exception $e) {
+            // Если API недоступен — не показываем
+        }
+
+        return view('shop::orders.show', compact('order', 'totalInRub'));
     }
 
     public function edit(Order $order)
@@ -74,6 +95,8 @@ class OrderController extends Controller
             'notes'              => 'nullable|string',
         ]);
 
+        $data['delivery_cost'] = $this->calculateDeliveryCost($data);
+
         $order->update($data);
         return redirect()->route('shop.orders.index')->with('success', 'Заказ обновлён.');
     }
@@ -82,5 +105,34 @@ class OrderController extends Controller
     {
         $order->delete();
         return redirect()->route('shop.orders.index')->with('success', 'Заказ удалён.');
+    }
+
+    protected function calculateDeliveryCost(array $data): float
+    {
+        if (empty($data['delivery_latitude']) || empty($data['delivery_longitude'])) {
+            return $data['delivery_cost'] ?? 0;
+        }
+
+        if (empty($data['warehouse_id'])) {
+            return $data['delivery_cost'] ?? 0;
+        }
+
+        $warehouse = Warehouse::find($data['warehouse_id']);
+
+        if (!$warehouse || !$warehouse->latitude || !$warehouse->longitude) {
+            return $data['delivery_cost'] ?? 0;
+        }
+
+        try {
+            $result = $this->delivery->calculate(
+                (float) $warehouse->latitude,
+                (float) $warehouse->longitude,
+                (float) $data['delivery_latitude'],
+                (float) $data['delivery_longitude']
+            );
+            return $result['cost'];
+        } catch (\Exception $e) {
+            return $data['delivery_cost'] ?? 0;
+        }
     }
 }
